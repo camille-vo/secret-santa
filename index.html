@@ -1,1 +1,109 @@
-<h1>Secret Santa</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Santa SMS Service Compliance</title>
+    <!-- Load Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-dark': '#B91C1C', // Dark Red
+                        'primary-light': '#F87171', // Light Red
+                        'accent-green': '#10B981', // Emerald Green
+                        'background-gray': '#F9FAFB', // Light background
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Inter Font Import -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+    <style>
+        /* Custom styles for visual flair */
+        .compliance-card {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-top: 5px solid #B91C1C;
+        }
+    </style>
+</head>
+<body class="bg-background-gray font-sans min-h-screen flex items-center justify-center p-4">
+
+    <!-- Main Compliance Card Container -->
+    <div class="w-full max-w-2xl mx-auto compliance-card bg-white rounded-xl overflow-hidden my-8">
+
+        <!-- Header -->
+        <div class="p-6 md:p-8 bg-primary-dark text-white text-center">
+            <svg class="w-10 h-10 mx-auto mb-2 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <h1 class="text-3xl font-bold mb-1">Secret Santa SMS Service</h1>
+            <p class="text-primary-light text-sm">Official Compliance & Disclosure Page</p>
+        </div>
+
+        <!-- Content Body -->
+        <div class="p-6 md:p-8 space-y-6">
+
+            <!-- Service Description -->
+            <div>
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">Service Description (Campaign Use Case)</h2>
+                <p class="text-gray-600 leading-relaxed">This is a personal, automated text messaging service used exclusively for our annual Secret Santa gift exchange. Users text in a specific keyword (like 'SANTA') to opt-in, and will receive a single, automated text message containing the name of their assigned gift recipient.</p>
+                <p class="mt-2 text-sm text-gray-500">This service is designed for low-volume, personal use only.</p>
+            </div>
+
+            <!-- Compliance Block -->
+            <div class="border border-red-200 bg-red-50 p-4 rounded-lg">
+                <h3 class="text-lg font-semibold text-primary-dark mb-3 flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.27a11 11 0 013.292 2.308M12 12a9 9 0 10-9 9m9-9zm0 0l-1.5 1.5M12 12l1.5 1.5"></path></svg>
+                    Required SMS Disclosures
+                </h3>
+
+                <!-- Opt-In -->
+                <p class="mb-2 text-gray-700">
+                    <span class="font-bold text-primary-dark">Opt-In Consent:</span> By texting our designated number with the sign-up keyword, you consent to receive up to two automated messages regarding the Secret Santa drawing.
+                </p>
+
+                <!-- Rates -->
+                <p class="mb-2 text-sm text-gray-700">
+                    <span class="font-bold text-primary-dark">Rates Disclosure:</span> Message and data rates may apply.
+                </p>
+
+                <!-- Opt-Out -->
+                <p class="text-gray-700">
+                    <span class="font-bold text-primary-dark">Opt-Out Instructions:</span> Reply **STOP** at any time to opt-out of all future messages. Reply **HELP** for assistance.
+                </p>
+            </div>
+
+            <!-- Privacy Policy -->
+            <div>
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">Privacy Policy Summary</h2>
+                <p class="text-gray-600 leading-relaxed">We respect your privacy. We **do not share or sell** your phone number or any personal data collected through this SMS service with any third parties or affiliates for marketing purposes. Your phone number is used solely to facilitate the Secret Santa drawing and notification.</p>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="pt-4 border-t border-gray-200">
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">Contact Information</h2>
+                <p class="text-gray-600">If you have any questions about this service or the messaging process, please contact the program administrator:</p>
+                <ul class="mt-2 text-gray-700 space-y-1">
+                    <li class="flex items-center">
+                        <svg class="w-4 h-4 mr-2 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12H8m4-4v8"></path></svg>
+                        Camille Vo
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="w-4 h-4 mr-2 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.85 5.23L18 8m-11 8h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        cammievo@gmail.com
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
