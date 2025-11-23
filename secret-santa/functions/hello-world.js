@@ -1,8 +1,6 @@
 // npm install node-emoji
 const emoji = require('node-emoji');
-// const airtable = require('airtable');
-var Airtable = require('airtable');
-
+const { getRecords, addParticipant, updateName } = require('../assets/airtable');
 
 exports.handler = async function (context, event, callback) {
   console.log("START OF FUNCTION")
@@ -11,30 +9,45 @@ exports.handler = async function (context, event, callback) {
   const body = event.Body || event.body;
   const from = event.From || event.from;
   console.log("body:", body, "from:", from);
-  var base = new Airtable({ apiKey: context.AIRTABLE_TOKEN }).base('appqdIjIRquGZOwP0');
 
-  const records = await base('tbl0ftTRWwv63mgaH').select({
-    view: 'Grid view'
-  }).firstPage();
+  let records = [];
+  try {
+    records = await getRecords(context);
+  } catch (err) {
+    console.error('Error fetching records from Airtable', err);
+    return callback(err);
+  }
 
-  const phoneNumbers = records.map(record => record.get('Phone Number'));
+  const targetRecord = records.find(record => record.get('Phone Number') === from);
 
-  console.log(phoneNumbers);
+  if (targetRecord && !targetRecord.get('Name')) {
+    twiml.message(`Thanks ${body}! ${emoji.get('christmas_tree')}`);
+    twiml.message(`Text this number at any time to send a message to your Secret Santa ${emoji.get('gift')}`);
 
-  if (phoneNumbers.includes(from)) {
-    twiml.message(`Thanks ${body}, you are now on the list! ${emoji.get('christmas_tree')}`);
-    twiml.message(`Text this number at any time to send a message to your Secret Santa. ${emoji.get('gift')}`);
+    try {
+      await updateName(context, targetRecord.id, body);
+    } catch (err) {
+      console.error('Error updating name in Airtable', err);
+      return callback(err);
+    }
 
+    callback(null, twiml);
+    return;
+  } else if (targetRecord) {
+    twiml.message(`Hi ${targetRecord.get('Name')}! You're already registered. ${emoji.get('smile')}`);
     callback(null, twiml);
     return;
   }
 
   if (body.toUpperCase() === "SANTA") {
-    // const message = twiml.message();
     twiml.message(`${emoji.get('gift')} Welcome to Secret Santa! ${emoji.get('santa')} `);
-    // message.media('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZndxNGlvdXB1dDBzcng1bG1jeXMzaG52YzN0bWFrcTQ2MmZkbmN4eCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/FHqFssDjhXWF6mbTXB/giphy.gif')
     twiml.message(`Reply with your name to get added to the list ${emoji.get('sparkles')}`);
-    base('Participants').create({ "Phone Number": from });
+    try {
+      await addParticipant(context, from);
+    } catch (err) {
+      console.error('Error adding participant', err);
+      return callback(err);
+    }
   } else {
     twiml.message(`You're supposed to say 'SANTA' ${emoji.get('confused')}`);
   }
