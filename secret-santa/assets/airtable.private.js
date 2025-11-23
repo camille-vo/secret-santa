@@ -27,8 +27,15 @@ async function updateName(context, recordId, name) {
     return record;
 }
 
+async function addGiftee(context, recordId, gifteeId) {
+    const base = getBase(context);
+    const record = await base('Participants').update(recordId, { 'Giftee': gifteeId });
+    return record;
+}
+
 module.exports = {
     getRecords,
     addParticipant,
-    updateName
+    updateName,
+    addGiftee
 };
