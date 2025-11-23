@@ -8,7 +8,6 @@ exports.handler = async function (context, event, callback) {
   const twiml = new Twilio.twiml.MessagingResponse();
   const body = (event.Body || event.body).trim();
   const from = event.From || event.from;
-  // twiml.from = "8883820737";
 
   let records = [];
   try {
@@ -19,7 +18,6 @@ exports.handler = async function (context, event, callback) {
   }
 
   const targetRecord = records.find(record => record.get('Phone Number') === from);
-
 
   if (body.toUpperCase() === "SANTA" && !targetRecord) {
     twiml.message(`${emoji.get('gift')} Welcome to Secret Santa! ${emoji.get('santa')} `);
@@ -59,7 +57,7 @@ exports.handler = async function (context, event, callback) {
     twiml.message(`Successfully sent ${result.successCount} messages, failed to send ${result.failureCount} messages.`);
     callback(null, twiml);
     return;
-  } else if (body.toUpperCase() === "REVEAL") {
+  } else if (body.toUpperCase() === "REVEAL" && from === context.ADMIN_PHONE_NUMBER) {
     records.filter(record => record.fields.Name).forEach(record => {
       const name = record.get('Name');
       const gifteeId = record.get('Giftee');
@@ -80,8 +78,37 @@ exports.handler = async function (context, event, callback) {
 
     callback(null, twiml);
     return;
+  }
+  else if (targetRecord && targetRecord.get('Giftee')) {
+    // Forward the message to the participant's secret santa
+    const mySecretSanta = records.find(record => record.get('Giftee') === targetRecord.id);
+    if (!mySecretSanta) {
+      console.error('No secret santa found for participant', targetRecord.id);
+      twiml.message(`Sorry, we couldn't find your Secret Santa. Mayday Mayday! ${emoji.get('sos')} `);
+      callback(null, twiml);
+      return;
+    }
+
+    const message = `${targetRecord.get('Name')} says: ${body}`;
+
+    try {
+      await context.getTwilioClient().messages.create({
+        body: message,
+        from: context.TWILIO_PHONE_NUMBER,
+        to: mySecretSanta.get('Phone Number')
+      });
+      twiml.message(`Message sent.`);
+    } catch (err) {
+      console.error('Error forwarding message to secret santa', err);
+      twiml.message(`There was an error sending your message to your Secret Santa. Sorry. ${emoji.get('pensive')}`);
+      callback(null, twiml);
+      return;
+    }
+    callback(null, twiml);
+    return;
   } else if (targetRecord) {
     twiml.message(`Hi ${targetRecord.get('Name')}! You're already registered. ${emoji.get('smile')}`);
+    twiml.message(`After you get your match, you can message your secret santa by texting this number.`);
     callback(null, twiml);
     return;
   }

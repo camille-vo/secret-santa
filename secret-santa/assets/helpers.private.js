@@ -87,8 +87,7 @@ const broadcastMatches = async (context, records, emoji) => {
 
         if (gifteeRecord && phoneNumber) {
             const gifteeName = gifteeRecord ? gifteeRecord.get('Name') : 'Unknown';
-            // const message = `${emoji.get('gift')} ${name}, you'll be buying a gift for ${gifteeName} ${emoji.get('tada')}`;
-            const message = `THIS IS JUST A TEST. Match is ${gifteeName}. I REPEAT THIS IS JUST A TEST`
+            const message = `${emoji.get('gift')} ${name}, you'll be buying a gift for ${gifteeName} ${emoji.get('tada')}! Why don't you try sending them a message now?`;
 
             try {
                 await context.getTwilioClient().messages.create({

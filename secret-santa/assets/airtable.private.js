@@ -37,5 +37,5 @@ module.exports = {
     getRecords,
     addParticipant,
     updateName,
-    addGiftee
+    addGiftee,
 };
